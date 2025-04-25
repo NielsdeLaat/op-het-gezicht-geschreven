@@ -27,6 +27,11 @@ main {
   }
 }
 
+.mind-overlay {
+  transform: rotate(-90deg);
+  transform-origin: center;
+}
+
 .animate-fadeIn {
   animation: fadeIn 0.3s ease-out forwards;
 }

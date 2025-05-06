@@ -25,9 +25,12 @@ export default function ThoughtOverlay({ content, onClose }) {
   const getInitialPosition = (index) => {
     // Fixed positions for thoughts
     const positions = [
-      { left: "20%", top: "30%" },
-      { left: "60%", top: "40%" },
-      { left: "40%", top: "60%" },
+      { left: "20%", top: "30%" }, // First text thought
+      { left: "60%", top: "40%" }, // Second text thought
+      { left: "40%", top: "60%" }, // Third text thought
+      { left: "70%", top: "70%" }, // Image position
+      { left: "30%", top: "20%" }, // Video position
+      { left: "50%", top: "50%" }, // Audio position
     ];
     return positions[index] || { left: "50%", top: "50%" };
   };

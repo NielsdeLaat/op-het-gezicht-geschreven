@@ -11,9 +11,13 @@ const hotspots = [
     position: { top: 50, left: 50 },
     label: "happy-man",
     thought: {
-      text: "I barely have time to breathe.",
-      text: "How long can I keep this up?",
-      image: "/images/thought1.jpg",
+      texts: [
+        "Zolang ik het druk heb, hoef ik niet te voelen hoe moe ik eigenlijk ben.",
+        "Ik heb geen tijd voor rust, dat is tijdsverspilling.",
+        "Ik zeg tegen anderen dat ze mild moeten zijn voor zichzelf. Maar ik weet niet hoe dat voelt.",
+      ],
+      image: "/images/texting.png",
+      backgroundImage: "/backgrounds/still-dark.gif",
       // video: "/videos/video1.mp4",
       // audio: "/audio/thought1.mp3",
     },
@@ -23,7 +27,17 @@ const hotspots = [
     position: { top: 30, left: 70 },
     label: "Secondary interaction point",
     thought: {
-      text: "Sometimes I wonder what's beyond...",
+      text: "Ik heb geen tijd voor rust, dat is tijdsverspilling.",
+      backgroundImage: "/images/overlay-bg2.jpg",
+    },
+  },
+  {
+    id: 3,
+    position: { top: 70, left: 30 },
+    label: "Third interaction point",
+    thought: {
+      text: "Ik zeg tegen anderen dat ze mild moeten zijn voor zichzelf. Maar ik weet niet hoe dat voelt.",
+      backgroundImage: "/images/overlay-bg3.jpg",
     },
   },
   // Add more hotspots as needed

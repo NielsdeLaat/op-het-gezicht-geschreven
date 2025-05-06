@@ -1,16 +1,21 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useRef, useEffect } from "react";
 import ThoughtOverlay from "./components/ThoughtOverlay";
-import InteractiveHotspot from "./components/InteractiveHotspot";
+import TimelineHotspot from "./components/TimelineHotspot";
 import SceneTransition from "./components/SceneTransition";
 
-// Define hotspots and their corresponding thoughts
-const hotspots = [
+// Define hotspots timeline with timing, positions, and keyframes
+const hotspotsTimeline = [
   {
     id: 1,
-    position: { top: 50, left: 50 },
     label: "happy-man",
+    startTime: 2,
+    endTime: 4,
+    keyframes: [
+      { time: 2, top: 0, left: 50 },
+      { time: 4, top: 150, left: 50 },
+    ],
     thought: {
       texts: [
         "Zolang ik het druk heb, hoef ik niet te voelen hoe moe ik eigenlijk ben.",
@@ -19,14 +24,17 @@ const hotspots = [
       ],
       image: "/images/texting.png",
       backgroundImage: "/backgrounds/still-dark.gif",
-      // video: "/videos/video1.mp4",
-      // audio: "/audio/thought1.mp3",
     },
   },
   {
     id: 2,
-    position: { top: 30, left: 70 },
-    label: "calm-man",
+    label: "Secondary interaction point",
+    startTime: 11,
+    endTime: 15,
+    keyframes: [
+      { time: 11.5, top: 100, left: 50 },
+      { time: 15, top: -50, left: 50 },
+    ],
     thought: {
       texts: [
         "Als ik zou verdwijnen, zou iemand het merken?",
@@ -42,19 +50,44 @@ const hotspots = [
 export default function Home() {
   const [activeThought, setActiveThought] = useState(null);
   const [isTransitioning, setIsTransitioning] = useState(false);
+  const [currentTime, setCurrentTime] = useState(0);
+  const videoRef = useRef(null);
+  const animationFrameRef = useRef(null);
+
+  // Update current time using requestAnimationFrame
+  const updateTime = () => {
+    if (videoRef.current) {
+      setCurrentTime(videoRef.current.currentTime);
+    }
+    animationFrameRef.current = requestAnimationFrame(updateTime);
+  };
+
+  useEffect(() => {
+    // Start tracking video time
+    if (videoRef.current) {
+      animationFrameRef.current = requestAnimationFrame(updateTime);
+    }
+
+    // Cleanup
+    return () => {
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+    };
+  }, []);
 
   const handleHotspotClick = (thought) => {
     setIsTransitioning(true);
     setTimeout(() => {
       setActiveThought(thought);
-    }, 1200); // Half transition duration
+    }, 1200);
   };
 
   const handleCloseThought = () => {
     setIsTransitioning(true);
     setTimeout(() => {
       setActiveThought(null);
-    }, 1200); // Half transition duration
+    }, 1200);
   };
 
   const handleTransitionComplete = () => {
@@ -64,11 +97,12 @@ export default function Home() {
   return (
     <>
       {/* Main content layer */}
-      <main className="w-[100vh] h-[100vw] bg-gray-50 fixed inset-0 m-auto">
+      <main className="w-[100vh] h-[100vw] bg-gray-50 fixed inset-0 m-auto z-0">
         <div className="absolute bottom-0 w-full flex justify-center">
           {/* Video Component */}
           <div className="relative">
             <video
+              ref={videoRef}
               className="cursor-pointer"
               style={{ width: "90vw", height: "auto" }}
               autoPlay
@@ -84,14 +118,14 @@ export default function Home() {
       </main>
 
       {/* Overlay layer for interactions */}
-      <div className="fixed inset-0 z-40">
+      <div className="fixed inset-0 z-10">
         <div className="w-full h-full relative">
-          {hotspots.map((hotspot) => (
-            <InteractiveHotspot
+          {hotspotsTimeline.map((hotspot) => (
+            <TimelineHotspot
               key={hotspot.id}
-              position={hotspot.position}
-              onClick={() => handleHotspotClick(hotspot.thought)}
-              label={hotspot.label}
+              {...hotspot}
+              currentTime={currentTime}
+              onClick={handleHotspotClick}
             />
           ))}
         </div>
@@ -99,12 +133,19 @@ export default function Home() {
 
       {/* Scene transition overlay */}
       {isTransitioning && (
-        <SceneTransition onTransitionComplete={handleTransitionComplete} />
+        <div className="z-20">
+          <SceneTransition onTransitionComplete={handleTransitionComplete} />
+        </div>
       )}
 
       {/* Thought overlay */}
       {activeThought && (
-        <ThoughtOverlay content={activeThought} onClose={handleCloseThought} />
+        <div className="z-30">
+          <ThoughtOverlay
+            content={activeThought}
+            onClose={handleCloseThought}
+          />
+        </div>
       )}
     </>
   );

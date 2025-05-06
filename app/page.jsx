@@ -3,6 +3,7 @@
 import { useState } from "react";
 import ThoughtOverlay from "./components/ThoughtOverlay";
 import InteractiveHotspot from "./components/InteractiveHotspot";
+import SceneTransition from "./components/SceneTransition";
 
 // Define hotspots and their corresponding thoughts
 const hotspots = [
@@ -31,27 +32,29 @@ const hotspots = [
       backgroundImage: "/images/overlay-bg2.jpg",
     },
   },
-  {
-    id: 3,
-    position: { top: 70, left: 30 },
-    label: "Third interaction point",
-    thought: {
-      text: "Ik zeg tegen anderen dat ze mild moeten zijn voor zichzelf. Maar ik weet niet hoe dat voelt.",
-      backgroundImage: "/images/overlay-bg3.jpg",
-    },
-  },
-  // Add more hotspots as needed
 ];
 
 export default function Home() {
   const [activeThought, setActiveThought] = useState(null);
+  const [isTransitioning, setIsTransitioning] = useState(false);
 
   const handleHotspotClick = (thought) => {
-    setActiveThought(thought);
+    setIsTransitioning(true);
+    // Delay setting the active thought until transition is complete
+    setTimeout(() => {
+      setActiveThought(thought);
+    }, 1200); // Full transition duration
   };
 
   const handleCloseThought = () => {
-    setActiveThought(null);
+    setIsTransitioning(true);
+    setTimeout(() => {
+      setActiveThought(null);
+    }, 1200); // Full transition duration
+  };
+
+  const handleTransitionComplete = () => {
+    setIsTransitioning(false);
   };
 
   return (
@@ -89,6 +92,11 @@ export default function Home() {
           ))}
         </div>
       </div>
+
+      {/* Scene transition overlay */}
+      {isTransitioning && (
+        <SceneTransition onTransitionComplete={handleTransitionComplete} />
+      )}
 
       {/* Thought overlay */}
       {activeThought && (

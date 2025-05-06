@@ -1,27 +1,43 @@
 "use client";
 
 import { useState } from "react";
+import ThoughtOverlay from "./components/ThoughtOverlay";
+import InteractiveHotspot from "./components/InteractiveHotspot";
 
-// Default values for the avatar
-const defaultProps = {
-  imageSrc: "/avatars/avatar1.png",
-  imageWidth: "auto",
-  imageHeight: "90vw",
-};
+// Define hotspots and their corresponding thoughts
+const hotspots = [
+  {
+    id: 1,
+    position: { top: 50, left: 50 },
+    label: "happy-man",
+    thought: {
+      text: "I barely have time to breathe.",
+      text: "How long can I keep this up?",
+      image: "/images/thought1.jpg",
+      // video: "/videos/video1.mp4",
+      // audio: "/audio/thought1.mp3",
+    },
+  },
+  {
+    id: 2,
+    position: { top: 30, left: 70 },
+    label: "Secondary interaction point",
+    thought: {
+      text: "Sometimes I wonder what's beyond...",
+    },
+  },
+  // Add more hotspots as needed
+];
 
-export default function Home({
-  imageSrc = defaultProps.imageSrc,
-  imageWidth = defaultProps.imageWidth,
-  imageHeight = defaultProps.imageHeight,
-}) {
-  const [showThought, setShowThought] = useState(false);
+export default function Home() {
+  const [activeThought, setActiveThought] = useState(null);
 
-  const handleAvatarClick = () => {
-    setShowThought(true);
+  const handleHotspotClick = (thought) => {
+    setActiveThought(thought);
   };
 
-  const handleBackClick = () => {
-    setShowThought(false);
+  const handleCloseThought = () => {
+    setActiveThought(null);
   };
 
   return (
@@ -29,41 +45,40 @@ export default function Home({
       {/* Main content layer */}
       <main className="w-[100vh] h-[100vw] bg-gray-50 fixed inset-0 m-auto">
         <div className="absolute bottom-0 w-full flex justify-center">
-          {/* Avatar Image */}
+          {/* Video Component */}
           <div className="relative">
-            <img
-              src={imageSrc}
-              alt="Avatar"
+            <video
               className="cursor-pointer"
-              style={{ width: imageWidth, height: imageHeight }}
-              onClick={handleAvatarClick}
-            />
+              style={{ width: "90vw", height: "auto" }}
+              autoPlay
+              loop
+              muted
+              playsInline
+            >
+              <source src="/main-video.mp4" type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
           </div>
         </div>
       </main>
 
       {/* Overlay layer for interactions */}
-      {showThought && (
-        <div
-          className="fixed inset-0 z-50 flex items-center justify-center"
-          style={{ transform: "rotate(-90deg)", transformOrigin: "center" }}
-        >
-          <div className="bg-white p-6 rounded-2xl shadow-xl animate-fadeIn max-w-md">
-            <p className="text-gray-700 text-lg mb-4">
-              Today everything feels a bit heavy…
-            </p>
-
-            <button
-              onClick={handleBackClick}
-              className="cursor-pointer px-4 py-2 bg-gray-100 hover:bg-gray-200 rounded-lg text-sm transition-colors duration-200"
-            >
-              Back
-            </button>
-
-            {/* TODO: Add sound effect or sensory feedback when thought bubble appears */}
-            {/* TODO: Add haptic feedback for mobile devices */}
-          </div>
+      <div className="fixed inset-0 z-40">
+        <div className="w-full h-full relative">
+          {hotspots.map((hotspot) => (
+            <InteractiveHotspot
+              key={hotspot.id}
+              position={hotspot.position}
+              onClick={() => handleHotspotClick(hotspot.thought)}
+              label={hotspot.label}
+            />
+          ))}
         </div>
+      </div>
+
+      {/* Thought overlay */}
+      {activeThought && (
+        <ThoughtOverlay content={activeThought} onClose={handleCloseThought} />
       )}
     </>
   );

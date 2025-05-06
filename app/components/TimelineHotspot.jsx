@@ -38,9 +38,9 @@ export default function TimelineHotspot({
     }
 
     // Calculate interpolation factor
+    const timeDiff = nextKeyframe.time - prevKeyframe.time;
     const factor =
-      (currentTime - prevKeyframe.time) /
-      (nextKeyframe.time - prevKeyframe.time);
+      timeDiff === 0 ? 0 : (currentTime - prevKeyframe.time) / timeDiff;
 
     // Interpolate position
     return {

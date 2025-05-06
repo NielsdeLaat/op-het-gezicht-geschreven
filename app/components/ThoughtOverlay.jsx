@@ -39,8 +39,8 @@ export default function ThoughtOverlay({ content, onClose }) {
 
     const element = e.currentTarget;
     const rect = element.getBoundingClientRect();
-    const offsetX = e.clientX - rect.left;
-    const offsetY = e.clientY - rect.top;
+    const offsetX = (e.clientX || e.touches[0].clientX) - rect.left;
+    const offsetY = (e.clientY || e.touches[0].clientY) - rect.top;
 
     const handleDrag = (e) => {
       e.preventDefault();
@@ -48,8 +48,11 @@ export default function ThoughtOverlay({ content, onClose }) {
       const containerWidth = window.innerHeight;
       const containerHeight = window.innerWidth;
 
-      const x = containerWidth - (e.clientY - offsetX);
-      const y = e.clientX - offsetY;
+      const clientX = e.clientX || e.touches[0].clientX;
+      const clientY = e.clientY || e.touches[0].clientY;
+
+      const x = containerWidth - (clientY - offsetX);
+      const y = clientX - offsetY;
 
       element.style.left = `${(x / containerWidth) * 100}%`;
       element.style.top = `${(y / containerHeight) * 100}%`;
@@ -61,6 +64,8 @@ export default function ThoughtOverlay({ content, onClose }) {
       e.stopPropagation();
       document.removeEventListener("mousemove", handleDrag);
       document.removeEventListener("mouseup", handleDragEnd);
+      document.removeEventListener("touchmove", handleDrag);
+      document.removeEventListener("touchend", handleDragEnd);
 
       const computedStyle = window.getComputedStyle(element);
       positionsRef.current[id] = {
@@ -81,6 +86,8 @@ export default function ThoughtOverlay({ content, onClose }) {
 
     document.addEventListener("mousemove", handleDrag);
     document.addEventListener("mouseup", handleDragEnd);
+    document.addEventListener("touchmove", handleDrag);
+    document.addEventListener("touchend", handleDragEnd);
   };
 
   return (
@@ -101,6 +108,7 @@ export default function ThoughtOverlay({ content, onClose }) {
               className={thoughtContainerClass}
               style={positionsRef.current[index] || getInitialPosition(index)}
               onMouseDown={(e) => handleDragStart(e, index)}
+              onTouchStart={(e) => handleDragStart(e, index)}
             >
               <p className={textClass}>{text}</p>
             </div>
@@ -110,6 +118,7 @@ export default function ThoughtOverlay({ content, onClose }) {
               className={thoughtContainerClass}
               style={positionsRef.current[0] || getInitialPosition(0)}
               onMouseDown={(e) => handleDragStart(e, 0)}
+              onTouchStart={(e) => handleDragStart(e, 0)}
             >
               <p className={textClass}>{content.text}</p>
             </div>
@@ -119,6 +128,7 @@ export default function ThoughtOverlay({ content, onClose }) {
           className={thoughtContainerClass}
           style={positionsRef.current["image"] || getInitialPosition(3)}
           onMouseDown={(e) => handleDragStart(e, "image")}
+          onTouchStart={(e) => handleDragStart(e, "image")}
         >
           <img
             src={content.image}
@@ -132,6 +142,7 @@ export default function ThoughtOverlay({ content, onClose }) {
           className={thoughtContainerClass}
           style={positionsRef.current["video"] || getInitialPosition(4)}
           onMouseDown={(e) => handleDragStart(e, "video")}
+          onTouchStart={(e) => handleDragStart(e, "video")}
         >
           <video
             src={content.video}
@@ -148,6 +159,7 @@ export default function ThoughtOverlay({ content, onClose }) {
           className={thoughtContainerClass}
           style={positionsRef.current["audio"] || getInitialPosition(5)}
           onMouseDown={(e) => handleDragStart(e, "audio")}
+          onTouchStart={(e) => handleDragStart(e, "audio")}
         >
           <audio src={content.audio} controls className={mediaClass} />
         </div>

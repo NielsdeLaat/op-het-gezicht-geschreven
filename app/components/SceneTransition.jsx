@@ -3,23 +3,27 @@
 import { useEffect, useState } from "react";
 import styles from "./SceneTransition.module.css";
 
-export default function SceneTransition({ onTransitionComplete }) {
-  const [isAnimating, setIsAnimating] = useState(true); // Start animating immediately
+const TRANSITION_DURATION = 2400; // 2.4s in milliseconds
+
+export default function SceneTransition({
+  onTransitionComplete,
+  isTransitioning,
+}) {
+  const [isAnimating, setIsAnimating] = useState(true);
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsAnimating(false);
-      onTransitionComplete?.();
-    }, 2400); // Match animation duration
-    return () => clearTimeout(timer);
-  }, [onTransitionComplete]);
+    console.log("SceneTransition mounted");
+    const timeout = setTimeout(() => {
+      console.log("SceneTransition complete");
+      onTransitionComplete();
+    }, TRANSITION_DURATION);
+    return () => clearTimeout(timeout);
+  }, [isTransitioning]);
+
+  if (!isAnimating) return null;
 
   return (
-    <div
-      className={`${styles.transitionOverlay} ${
-        isAnimating ? styles.animating : ""
-      }`}
-    >
+    <div className={styles.transitionOverlay}>
       <div className={styles.curtain} />
     </div>
   );

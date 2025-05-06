@@ -26,10 +26,15 @@ const hotspots = [
   {
     id: 2,
     position: { top: 30, left: 70 },
-    label: "Secondary interaction point",
+    label: "calm-man",
     thought: {
-      text: "Ik heb geen tijd voor rust, dat is tijdsverspilling.",
-      backgroundImage: "/images/overlay-bg2.jpg",
+      texts: [
+        "Als ik zou verdwijnen, zou iemand het merken?",
+        "Soms kijk ik naar mezelf in de spiegel en zie ik iemand die ik niet meer herken.",
+        "Ik weet niet meer wanneer ik me voor het laatst écht blij voelde.",
+      ],
+      image: "/images/child-alone.png",
+      backgroundImage: "/backgrounds/still-dark.gif",
     },
   },
 ];
@@ -40,17 +45,16 @@ export default function Home() {
 
   const handleHotspotClick = (thought) => {
     setIsTransitioning(true);
-    // Delay setting the active thought until transition is complete
     setTimeout(() => {
       setActiveThought(thought);
-    }, 1200); // Full transition duration
+    }, 1200); // Half transition duration
   };
 
   const handleCloseThought = () => {
     setIsTransitioning(true);
     setTimeout(() => {
       setActiveThought(null);
-    }, 1200); // Full transition duration
+    }, 1200); // Half transition duration
   };
 
   const handleTransitionComplete = () => {

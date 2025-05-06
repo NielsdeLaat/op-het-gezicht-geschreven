@@ -1,0 +1,37 @@
+.transitionOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 1000;
+  pointer-events: auto;
+  overflow: hidden;
+}
+
+.curtain {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 400vw;
+  height: 400vh;
+  background: linear-gradient(to bottom, #003366, #000000);
+  animation: slideDown 2.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  border-radius: 10%;
+  transform-origin: center center;
+}
+
+@keyframes slideDown {
+  0% {
+    transform: translate(-100%, -100%) scale(1);
+  }
+  40% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  60% {
+    transform: translate(-50%, -50%) scale(1);
+  }
+  100% {
+    transform: translate(-100%, -100%) scale(1);
+  }
+}

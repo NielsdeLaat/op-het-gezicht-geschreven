@@ -2,11 +2,11 @@
   {
     "id": 1,
     "label": "happy-man",
-    "startTime": 2,
+    "startTime": 1.5,
     "endTime": 4,
     "keyframes": [
-      { "time": 2, "top": 0, "left": 50 },
-      { "time": 4, "top": 150, "left": 50 }
+      { "time": 1.75, "top": 0, "left": 50 },
+      { "time": 4, "top": 140, "left": 50 }
     ],
     "thought": {
       "texts": [
@@ -15,17 +15,17 @@
         "Ik zeg tegen anderen dat ze mild moeten zijn voor zichzelf. Maar ik weet niet hoe dat voelt."
       ],
       "image": "/images/texting.png",
-      "backgroundImage": "/backgrounds/still-dark.gif"
+      "backgroundImage": "/backgrounds/still-loop-1.gif"
     }
   },
   {
     "id": 2,
     "label": "Secondary interaction point",
-    "startTime": 11,
+    "startTime": 10,
     "endTime": 15,
     "keyframes": [
-      { "time": 11.5, "top": 100, "left": 50 },
-      { "time": 15, "top": -50, "left": 50 }
+      { "time": 10.25, "top": 100, "left": 50 },
+      { "time": 15, "top": -30, "left": 50 }
     ],
     "thought": {
       "texts": [
@@ -34,7 +34,7 @@
         "Ik wil niet lastig zijn. Dus ik lach gewoon."
       ],
       "image": "/images/lonely.png",
-      "backgroundImage": "/backgrounds/still-blur.gif"
+      "backgroundImage": "/backgrounds/still-loop-2.gif"
     }
   }
 ]

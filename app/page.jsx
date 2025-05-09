@@ -4,7 +4,6 @@ import { useState, useRef, useEffect } from "react";
 import ThoughtOverlay from "./components/ThoughtOverlay";
 import TimelineHotspot from "./components/TimelineHotspot";
 import SceneTransition from "./components/SceneTransition";
-import { hotspotsTimeline } from "./data/hotspots";
 
 export default function Home() {
   const [activeThought, setActiveThought] = useState(null);
@@ -12,6 +11,13 @@ export default function Home() {
   const [currentVideoTime, setCurrentVideoTime] = useState(0);
   const videoRef = useRef(null);
   const animationFrameRef = useRef(null);
+  const [characterData, setCharacterData] = useState([]);
+
+  useEffect(() => {
+    fetch("/data/characterData.json")
+      .then((res) => res.json())
+      .then((data) => setCharacterData(data));
+  }, []);
 
   // Video time tracking system
 
@@ -82,10 +88,10 @@ export default function Home() {
       {/* Overlay layer for interactions */}
       <div className="fixed inset-0 z-10">
         <div className="w-full h-full relative">
-          {hotspotsTimeline.map((hotspot) => (
+          {characterData.map((character) => (
             <TimelineHotspot
-              key={hotspot.id}
-              {...hotspot}
+              key={character.id}
+              {...character}
               currentTime={currentVideoTime}
               onClick={handleHotspotClick}
             />

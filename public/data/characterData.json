@@ -1,0 +1,40 @@
+[
+  {
+    "id": 1,
+    "label": "happy-man",
+    "startTime": 1.5,
+    "endTime": 4,
+    "keyframes": [
+      { "time": 1.75, "top": 0, "left": 50 },
+      { "time": 4, "top": 140, "left": 50 }
+    ],
+    "thought": {
+      "texts": [
+        "Zolang ik het druk heb, hoef ik niet te voelen hoe moe ik eigenlijk ben.",
+        "Ik heb geen tijd voor rust, dat is tijdsverspilling.",
+        "Ik zeg tegen anderen dat ze mild moeten zijn voor zichzelf. Maar ik weet niet hoe dat voelt."
+      ],
+      "image": "/images/texting.png",
+      "backgroundImage": "/backgrounds/still-loop-1.gif"
+    }
+  },
+  {
+    "id": 2,
+    "label": "Secondary interaction point",
+    "startTime": 10,
+    "endTime": 15,
+    "keyframes": [
+      { "time": 10.25, "top": 100, "left": 50 },
+      { "time": 15, "top": -30, "left": 50 }
+    ],
+    "thought": {
+      "texts": [
+        "Als ik zou verdwijnen, zou iemand het dan merken?",
+        "Soms hoop ik dat iemand vraagt hoe het echt met me gaat.",
+        "Ik wil niet lastig zijn. Dus ik lach gewoon."
+      ],
+      "image": "/images/lonely.png",
+      "backgroundImage": "/backgrounds/still-loop-2.gif"
+    }
+  }
+]

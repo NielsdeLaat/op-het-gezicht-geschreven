@@ -4,7 +4,7 @@ export default function InteractiveHotspot({ position, onClick, label }) {
   return (
     <button
       onClick={onClick}
-      className="absolute w-[100vw] h-150 rounded-full bg-red-500/30 hover:bg-red-500/40 cursor-pointer transition-colors duration-200"
+      className="absolute w-[100vw] h-150 rounded-full cursor-pointer transition-colors duration-200"
       style={{
         top: `${position.top}%`,
         left: `${position.left}%`,
